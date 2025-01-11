@@ -9,12 +9,6 @@ A mobile-first React application designed to help salespeople manage store order
 - Add new stores with details
 - Quick access to store purchase history
 
-## 📱 Screenshots
-![Store List](screenshots/stores.png)
-![Product Stock](screenshots/stock.png)
-![Order Process](screenshots/order.png)
-## 
-
 ### 2. Product Inventory
 - Complete product catalog with prices
 - Real-time stock monitoring
@@ -32,7 +26,13 @@ A mobile-first React application designed to help salespeople manage store order
 - Detailed order information
 - Easy date navigation with calendar
 - Complete order history tracking
+
+## 📱 Screenshots
+![Store List](screenshots/stores.png)
+![Product Stock](screenshots/stock.png)
+![Order Process](screenshots/order.png)
 ![Order History](screenshots/history.png)
+## 
 
 ## 🚀 Getting Started
 
