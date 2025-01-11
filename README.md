@@ -8,21 +8,24 @@ A mobile-first React application designed to help salespeople manage store order
 - View list of registered stores
 - Add new stores with details
 - Quick access to store purchase history
+
+## 📱 Screenshots
 ![Store List](screenshots/stores.png)
+![Product Stock](screenshots/stock.png)
+![Order Process](screenshots/order.png)
+## 
 
 ### 2. Product Inventory
 - Complete product catalog with prices
 - Real-time stock monitoring
 - Sort products by name, category, or stock level
 - Visual indicators for low stock items
-![Product Stock](screenshots/stock.png)
 
 ### 3. Order Processing
 - Intuitive shopping cart interface
 - Quick quantity adjustments
 - Real-time total calculation
 - Order summary before checkout
-![Order Process](screenshots/order.png)
 
 ### 4. Order History
 - View orders by date
