@@ -46,7 +46,7 @@ A mobile-first React application designed to help salespeople manage store order
 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/lps.git
+git clone https://github.com/page403/lps.git
 ```
 
 2. Install dependencies
