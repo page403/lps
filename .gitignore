@@ -24,4 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # firebase config (optional, remove if you want to share your config)
-src/firebase/config.js
+# src/firebase/config.js
