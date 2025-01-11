@@ -70,5 +70,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 ## Setup
-1. Copy `src/firebase/config.sample.js` to `src/firebase/config.js`
-2. Replace the Firebase configuration values with your own from your Firebase project settings
+1. Copy `.env.sample` to `.env`
+2. Replace the environment variables in `.env` with your Firebase configuration
