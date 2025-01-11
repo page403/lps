@@ -93,3 +93,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Create React App team
 - Firebase team
 - All contributors
+
+## PROJECT CAN BE IMPROVED COMING SOON
