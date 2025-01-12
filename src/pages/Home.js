@@ -14,6 +14,13 @@ function Home() {
   const [storeTrends, setStoreTrends] = useState({});
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(true);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    navigate('/');
+    window.location.reload(); // Force reload to trigger auth check
+  };
 
   const fetchData = async () => {
     try {
@@ -184,6 +191,17 @@ function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showDropdown && !event.target.closest('.dropdown-container')) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [showDropdown]);
+
   const formatPrice = (price) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -230,9 +248,14 @@ function Home() {
       <div className="app-header">
         <h1>Lumbung Pangan Semesta</h1>
         <div className="header-actions">
-          <button className="icon-button">
-            <span>👤</span>
-          </button>
+        <div className="dropdown-container">
+                <button 
+                  className="dropdown-item"
+                  onClick={handleLogout}
+                >
+                  <span>🚪</span> Logout
+                </button>
+              </div>
         </div>
       </div>
 
