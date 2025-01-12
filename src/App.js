@@ -56,8 +56,10 @@ function Login({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-      username === process.env.REACT_APP_USERNAME && 
-      password === process.env.REACT_APP_PASSWORD
+      username === 'wahid' && 
+      // username === process.env.REACT_APP_USERNAME && 
+      // password === process.env.REACT_APP_PASSWORD
+      password === 'ganteng'
     ) {
       localStorage.setItem('isAuthenticated', 'true');
       onLogin();

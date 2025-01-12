@@ -42,17 +42,6 @@
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.stock-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.stock-item:active {
-  transform: translateY(0);
 }
 
 .stock-item-header {
@@ -162,7 +151,6 @@
 .modal-content h2 {
   margin-bottom: 20px;
   color: #333;
-  font-size: 1.5rem;
 }
 
 .form-group {
@@ -182,17 +170,12 @@
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .form-group input:focus {
   outline: none;
   border-color: #3498db;
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
-}
-
-.form-group input:hover {
-  border-color: #94a3b8;
 }
 
 .modal-actions {

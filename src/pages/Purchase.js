@@ -15,6 +15,7 @@ function Purchase() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [categories, setCategories] = useState([]);
+  const [selectedUnits, setSelectedUnits] = useState({});
 
   useEffect(() => {
     const fetchStoreAndProducts = async () => {
@@ -90,6 +91,36 @@ function Purchase() {
   const cartTotal = cart.reduce((sum, item) => sum + (item.harga * item.quantity), 0);
   const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  const calculateUnitPrice = (cartonPrice, unitType, unitsPerCarton) => {
+    switch (unitType) {
+      case 'carton':
+        return cartonPrice;
+      case 'middle':
+        return Math.round(cartonPrice / 2);
+      case 'small':
+        return Math.round(cartonPrice / unitsPerCarton);
+      default:
+        return cartonPrice;
+    }
+  };
+
+  const getDisplayPrice = (product) => {
+    const unitType = selectedUnits[product.id] || 'carton';
+    const price = calculateUnitPrice(
+      product.harga,
+      unitType,
+      product.unitPerCarton
+    );
+    return formatPrice(price);
+  };
+
+  const handleUnitChange = (productId, unitType) => {
+    setSelectedUnits(prev => ({
+      ...prev,
+      [productId]: unitType
+    }));
+  };
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -134,7 +165,32 @@ function Purchase() {
             <div className="product-info">
               <h3>{product.nama}</h3>
               <p className="category">{product.kategori}</p>
-              <p className="price">{formatPrice(product.harga)}</p>
+              <div className="unit-selector">
+                <button
+                  className={`unit-btn ${selectedUnits[product.id] === 'small' ? 'active' : ''}`}
+                  onClick={() => handleUnitChange(product.id, 'small')}
+                >
+                  {product.smallUnit || 'PCS'}
+                </button>
+                <button
+                  className={`unit-btn ${selectedUnits[product.id] === 'middle' ? 'active' : ''}`}
+                  onClick={() => handleUnitChange(product.id, 'middle')}
+                >
+                  {product.middleUnit || 'Pack'}
+                </button>
+                <button
+                  className={`unit-btn ${(!selectedUnits[product.id] || selectedUnits[product.id] === 'carton') ? 'active' : ''}`}
+                  onClick={() => handleUnitChange(product.id, 'carton')}
+                >
+                  Carton
+                </button>
+              </div>
+              <p className="price">
+                {getDisplayPrice(product)}
+                <span className="unit-label">
+                  /{selectedUnits[product.id] || 'carton'}
+                </span>
+              </p>
               <p className="stock">Stok: {product.stok}</p>
             </div>
             <div className="product-actions">
@@ -151,7 +207,15 @@ function Purchase() {
               </span>
               <button 
                 className="quantity-btn add"
-                onClick={() => addToCart(product)}
+                onClick={() => addToCart({
+                  ...product,
+                  selectedUnit: selectedUnits[product.id] || 'carton',
+                  unitPrice: calculateUnitPrice(
+                    product.harga,
+                    selectedUnits[product.id] || 'carton',
+                    product.unitPerCarton
+                  )
+                })}
                 disabled={product.stok === 0}
               >
                 +
@@ -165,7 +229,11 @@ function Purchase() {
         <div className="cart-summary">
           <div className="cart-info">
             <span>{cartItemCount} item</span>
-            <span className="cart-total">{formatPrice(cartTotal)}</span>
+            <span className="cart-total">
+              {formatPrice(cart.reduce((sum, item) => 
+                sum + (item.unitPrice * item.quantity), 0
+              ))}
+            </span>
           </div>
           <button 
             className="checkout-button"
