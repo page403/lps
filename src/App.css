@@ -39,10 +39,9 @@ body {
 /* Stats widgets */
 .stats-widgets {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  padding: 15px;
 }
 
 .stat-widget {
@@ -85,10 +84,9 @@ body {
 
 /* Store list */
 .data-container {
-  padding: 0 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  padding: 15px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .store-card {
@@ -146,7 +144,7 @@ body {
   background-color: white;
   display: flex;
   justify-content: space-around;
-  padding: 10px 0;
+  padding: 8px 0;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
@@ -163,15 +161,15 @@ body {
 /* FAB Button */
 .fab {
   position: fixed;
-  bottom: 80px; /* Adjust this value to position above the bottom nav */
-  right: 20px;
-  width: 56px;
-  height: 56px;
+  bottom: 70px;
+  right: 15px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background-color: #007bff; /* Or your preferred color */
+  background-color: #007bff;
   color: white;
   border: none;
-  font-size: 24px;
+  font-size: 20px;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   transition: transform 0.3s ease-in-out;
@@ -187,9 +185,62 @@ body {
 }
 
 .fab:hover {
-  background-color: #0056b3; /* Darker shade for hover */
+  background-color: #0056b3;
 }
 
 .App-main {
-  padding-bottom: 70px; /* Add padding to prevent content from being hidden behind nav */
+  padding-bottom: 70px;
+}
+
+/* Base responsive styles */
+.App {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Table responsiveness */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Media Queries */
+@media screen and (max-width: 480px) {
+  .section-title {
+    font-size: 1.2rem;
+    margin: 10px 15px;
+  }
+  
+  .stats-widgets {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .nav-item span:not(.nav-icon) {
+    font-size: 11px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .stats-widgets {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Header responsiveness */
+.header {
+  padding: 10px 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header-actions {
+  margin-right: 5px;
+}
+
+/* Form inputs responsiveness */
+input, select, textarea {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
 }
