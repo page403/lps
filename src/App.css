@@ -38,18 +38,25 @@ body {
 
 /* Stats widgets */
 .stats-widgets {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
+  display: flex;
+  overflow-x: auto;
   padding: 15px;
+  gap: 15px;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+.stats-widgets::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome/Safari */
 }
 
 .stat-widget {
-  background: var(--white);
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  position: relative;
+  min-width: 280px; /* Fixed minimum width */
+  flex: 0 0 auto;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .stat-widget h3 {
@@ -60,18 +67,14 @@ body {
 }
 
 .stat-value {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--text-dark);
-  margin: 0 0 16px 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 10px 0;
 }
 
 .comparison {
-  font-size: 13px;
-  color: var(--text-gray);
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  font-size: 0.9rem;
+  margin: 5px 0;
 }
 
 .positive-change {
