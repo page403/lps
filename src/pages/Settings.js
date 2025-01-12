@@ -1,9 +1,19 @@
+import PageLayout from '../components/PageLayout';
+
 function Settings() {
   return (
-    <div>
-      <h1>Settings Page</h1>
-      {/* Add your settings page content here */}
-    </div>
+    <PageLayout 
+      title="Settings"
+      showFab={false}
+    >
+      <div className="section-container">
+        <h2 className="section-title">Account Settings</h2>
+      </div>
+
+      <div className="data-container">
+        {/* Settings options */}
+      </div>
+    </PageLayout>
   );
 }
 

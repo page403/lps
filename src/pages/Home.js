@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, getDocs, query, where, Timestamp } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { useNavigate } from 'react-router-dom';
+import '../styles/loading.css';
 
 function Home() {
   const [data, setData] = useState([]);
@@ -216,7 +217,12 @@ function Home() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <span className="loading-text">Loading...</span>
+      </div>
+    );
   }
 
   return (
@@ -256,6 +262,11 @@ function Home() {
       {/* <div className="section-container">
         <h2 className="section-title">Daftar Toko</h2>
       </div> */}
+      <div className="section-container">
+        <h2 className="section-title">
+          {new Date().toLocaleDateString('id-ID', { weekday: 'long' })}
+        </h2>
+      </div>
 
       <div className="data-container">
         {data.map((item) => (
