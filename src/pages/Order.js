@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { collection, getDocs, where, Timestamp } from 'firebase/firestore';
 import { db } from '../firebase/config';
-import '../styles/loading.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from "react-datepicker";
 
 function Order() {
 
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
-  const [today, setDate] = useState(new Date())
+  const [selectedDate, setSelectedDate] = useState(new Date())
 
-  const startOfToday = new Date(today.setHours(0, 0, 0, 0));
-  const endOfToday = new Date(today.setHours(23, 59, 59, 999));
+  const fetchData = async (selectedDate) => {
+    const startOfToday = new Date(selectedDate.setHours(0, 0, 0, 0));
+    const endOfToday = new Date(selectedDate.setHours(23, 59, 59, 999));
 
-  const fetchData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "orders"), 
       where('timestamp', '>=', Timestamp.fromDate(startOfToday)), 
@@ -31,9 +32,12 @@ function Order() {
   }
 
   useEffect(() => {
-    fetchData()
-  },[])
+    fetchData(selectedDate)
+  },[selectedDate])
 
+  const handleDateChange = (selectedDate) => {
+    setSelectedDate(selectedDate)
+  }
 
   if (loading){
     return (
@@ -46,6 +50,7 @@ function Order() {
 
   return (
     <div className="data-container">
+      <DatePicker selected={selectedDate} onChange={handleDateChange} />
         {data.map((item) => (
           <div 
             key={item.id} 
@@ -65,4 +70,4 @@ function Order() {
 
 }
 
-export default Order; 
+export default Order;
