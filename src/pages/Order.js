@@ -1,73 +1,92 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs, where, Timestamp } from 'firebase/firestore';
+import { collection, getDocs, where, Timestamp, query } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from "react-datepicker";
 
-function Order() {
-
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [selectedDate, setSelectedDate] = useState(new Date())
-
-  const fetchData = async (selectedDate) => {
-    const startOfToday = new Date(selectedDate.setHours(0, 0, 0, 0));
-    const endOfToday = new Date(selectedDate.setHours(23, 59, 59, 999));
-
-    try {
-      const querySnapshot = await getDocs(collection(db, "orders"), 
-      where('timestamp', '>=', Timestamp.fromDate(startOfToday)), 
-      where('timestamp', '<=', Timestamp.fromDate(endOfToday))
-    );
-      const documents = []
-      querySnapshot.forEach((doc) => {
-        documents.push({id: doc.id, ...doc.data()})
-      })
-      setData(documents)
-    } catch (error) {
-      console.log("Error fetching data: ", error)
-    } finally {
-      setLoading(false)
-    }
-  }
+const Order = () => {
+  const [orders, setOrders] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(''); // State for date input
 
   useEffect(() => {
-    fetchData(selectedDate)
-  },[selectedDate])
+    const fetchOrders = async () => {
+      if (!selectedDate) return; // Don't fetch if no date is selected
 
-  const handleDateChange = (selectedDate) => {
-    setSelectedDate(selectedDate)
-  }
+      try {
+        const ordersCollection = collection(db, 'orders');
 
-  if (loading){
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <span className="loading-text">Loading...</span>
-      </div>
-    )
-  }
+        // Parse the selected date to a Date object
+        const selectedDateObj = new Date(selectedDate);
+
+        // Calculate the start and end of the day in milliseconds
+        const startOfDay = selectedDateObj.getTime();
+        const endOfDay = startOfDay + 24 * 60 * 60 * 1000 - 1; // End of day
+
+        const q = query(
+          ordersCollection,
+          where('timestamp', '>=', new Date(startOfDay)),
+          where('timestamp', '<=', new Date(endOfDay))
+        );
+
+        const querySnapshot = await getDocs(q);
+        const fetchedOrders = [];
+        querySnapshot.forEach((doc) => {
+          fetchedOrders.push({ id: doc.id, ...doc.data() });
+        });
+        setOrders(fetchedOrders);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
+
+    fetchOrders();
+  }, [selectedDate]);
+
+  const handleDateChange = (event) => {
+    setSelectedDate(event.target.value);
+  };
+
+  console.log(orders)
 
   return (
-    <div className="data-container">
-      <DatePicker selected={selectedDate} onChange={handleDateChange} />
-        {data.map((item) => (
-          <div 
-            key={item.id} 
-            className="data-item store-card">
-            <div className="store-info-container">
-              <h3>{item.storeName}</h3>
-              <p>{item.storeAddress}</p>
-              <p>{item.items.map(i => <ul><li>{i.nama}
-                <span> x {i.quantity} = {i.subtotal}</span>
-                </li></ul>)}</p>
-                <b>{item.totalAmount}</b>
-            </div>
-          </div>
-        ))}
-      </div>
-  )
+    <div>
+      <h1>Orders</h1>
+      <label htmlFor="datePicker">Select Date:</label>
+      <input
+        type="date"
+        id="datePicker"
+        value={selectedDate}
+        onChange={handleDateChange}
+      />
 
-}
+      {orders.length === 0 ? (
+        <p>No orders found for this date.</p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Total Amount</th>
+              {/* Add more table headers as needed */}
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order.id}>
+                <td>{order.id}</td>
+                <td>{order.nama}</td>
+                <td>{order.quantity}</td>
+                <td>{order.totalAmount}</td>
+                {/* Add more table data cells as needed */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+};
 
 export default Order;
